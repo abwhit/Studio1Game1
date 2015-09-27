@@ -48,10 +48,10 @@ public class BeeControls : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("111");
-        if (other.gameObject.name == "Collectable")
+        //Debug.Log("111");
+        if (other.gameObject.tag == "Collectable")
         {
-            
+            Destroy(other.gameObject);
             Debug.Log("111");
 
 
