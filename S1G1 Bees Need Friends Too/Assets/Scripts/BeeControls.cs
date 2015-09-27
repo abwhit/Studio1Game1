@@ -12,10 +12,22 @@ public class BeeControls : MonoBehaviour {
     // Bool to change the control scheme
     public bool bee1 = false;
 
+    //public Collectable collectables;
+
+    public GameController gameController;
+
+    public GameObject otherBee;
+
+    public float distance;
+
+
     void Awake()
     {
         // Get the rigidBody component of this gameObject
         RB = GetComponent<Rigidbody2D>();
+
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
     }
     // Use this for initialization
     void Start () {
@@ -24,6 +36,15 @@ public class BeeControls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
+        distance = Vector2.Distance(transform.position, otherBee.transform.position);
+
+        DistanceCheck();
+
+
+        
+
 	
 	}
 
@@ -51,10 +72,29 @@ public class BeeControls : MonoBehaviour {
         //Debug.Log("111");
         if (other.gameObject.tag == "Collectable")
         {
-            Destroy(other.gameObject);
-            Debug.Log("111");
+            if (other.gameObject.GetComponent<Collectable>().IsCollectable)
+            {
+                gameController.score += other.gameObject.GetComponent<Collectable>().scoreIncrease;
+                Destroy(other.gameObject);
+                Debug.Log("111");
+            }
 
 
+        }
+
+    }
+
+   
+
+    void DistanceCheck()
+    {
+        if (distance <= 2f)
+        {
+            gameController.beesAreClose = true;
+        }
+        else
+        {
+            gameController.beesAreClose = false;
         }
 
     }
